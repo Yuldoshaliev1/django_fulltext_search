@@ -35,13 +35,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.postgres",
     'apps.apps.AppsConfig',
 
     "debug_toolbar",
-    "django.contrib.postgres",
+
 ]
 
 MIDDLEWARE = [
+    'apps.middleware.BlockedIpMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'root.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'my_postgres',
+        'NAME': 'my_database',
         'USER': 'my_user',
         'PASSWORD': 'my_password',
         'HOST': 'my_host',
@@ -128,6 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ip = socket.gethostbyname(socket.gethostname())
 INTERNAL_IPS = ["127.0.0.1", ip[:-1] + "1"]
+BLOCKED_IPS = ['10.10.4.52']
 
 CACHES = {
     "default": {

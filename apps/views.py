@@ -14,8 +14,6 @@ class QuoteList(ListView):
     template_name = "apps/quote.html"
 
 
-
-
 class SearchResultsList(ListView):
     model = Quote
     context_object_name = "quotes"
@@ -23,4 +21,11 @@ class SearchResultsList(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
-        return Quote.objects.filter(search_vector=query)
+        if query:
+            return Quote.objects.filter(search_vector=query)
+        return Quote.objects.none()
+
+class MainPage(ListView):
+    queryset = Quote.objects.all()[:1000]
+    context_object_name = "quotes"
+    template_name = 'apps/main.html'
